@@ -1,0 +1,15 @@
+# Python 3.10+ required (3.11 recommended). Install with:  pip install -r requirements.txt
+#
+# --- Phase 0: core ---
+pydantic>=2.5,<3
+PyYAML>=6.0
+python-dotenv>=1.0
+pandas>=2.0
+numpy>=1.26
+pytest>=8.0
+
+# --- Added in later phases (uncomment when you reach them) ---
+# Phase 1-2 (data + ingestion): kaggle, requests, feedparser, yfinance
+# Phase 3 (NLP engine):         torch, transformers, spacy, scikit-learn
+# Phase 4 (API):                fastapi, uvicorn[standard]
+# Phase 8 (dashboard):          streamlit, plotly

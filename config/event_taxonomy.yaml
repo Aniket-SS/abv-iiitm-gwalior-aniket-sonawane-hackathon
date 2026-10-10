@@ -1,0 +1,75 @@
+# Event classes the engine can assign. Keys MUST match the EventType enum in
+# src/common/schemas.py (a test enforces this).
+#   base_severity : prior on a 1-10 scale, used as a starting point for the impact score
+#   zero_shot_label: natural-language phrase fed to the zero-shot classifier
+#   keywords      : cheap lexical hints / sanity checks / fallback rules
+events:
+  geopolitical:
+    label: Geopolitical
+    description: War, sanctions, trade conflict, elections, diplomatic tension.
+    base_severity: 8
+    zero_shot_label: geopolitical tension, war, sanctions or trade conflict
+    keywords: [war, sanctions, tariff, embargo, invasion, ceasefire, election, geopolitical]
+
+  macroeconomic:
+    label: Macroeconomic
+    description: Central bank policy, inflation, jobs, GDP, rates, currency moves.
+    base_severity: 7
+    zero_shot_label: macroeconomic news such as interest rates, inflation or GDP
+    keywords: [inflation, interest rate, fed, central bank, gdp, unemployment, recession, cpi]
+
+  credit_event:
+    label: Credit Event
+    description: Default, downgrade, bankruptcy, debt restructuring, covenant breach.
+    base_severity: 9
+    zero_shot_label: credit event such as default, downgrade or bankruptcy
+    keywords: [default, downgrade, bankruptcy, restructuring, insolvency, credit rating, covenant]
+
+  merger_acquisition:
+    label: Merger & Acquisition
+    description: Takeovers, mergers, divestitures, large stake purchases.
+    base_severity: 6
+    zero_shot_label: merger, acquisition or takeover deal
+    keywords: [acquire, acquisition, merger, takeover, buyout, divest, stake]
+
+  product_launch:
+    label: Product Launch
+    description: New products, services, partnerships or major contracts.
+    base_severity: 3
+    zero_shot_label: new product launch or business partnership
+    keywords: [launch, unveil, release, partnership, introduces, rollout]
+
+  earnings:
+    label: Earnings
+    description: Quarterly or annual results, guidance changes, profit warnings.
+    base_severity: 5
+    zero_shot_label: company earnings results or financial guidance
+    keywords: [earnings, revenue, profit, guidance, quarterly results, eps, outlook]
+
+  regulatory_legal:
+    label: Regulatory & Legal
+    description: Lawsuits, fines, investigations, antitrust, new regulation.
+    base_severity: 6
+    zero_shot_label: regulatory action, lawsuit, fine or investigation
+    keywords: [lawsuit, fine, antitrust, investigation, regulator, sec, probe, settlement]
+
+  leadership_change:
+    label: Leadership Change
+    description: CEO/CFO departures or appointments, board changes.
+    base_severity: 4
+    zero_shot_label: executive leadership change such as CEO resignation or appointment
+    keywords: [ceo, cfo, resigns, steps down, appointed, board, successor]
+
+  operational_disruption:
+    label: Operational Disruption
+    description: Outages, recalls, strikes, cyberattacks, supply-chain or safety incidents.
+    base_severity: 6
+    zero_shot_label: operational disruption such as outage, recall, strike or cyberattack
+    keywords: [outage, recall, strike, cyberattack, breach, supply chain, shutdown, accident]
+
+  other:
+    label: Other
+    description: Relevant but not covered by any class above.
+    base_severity: 2
+    zero_shot_label: general company news
+    keywords: []

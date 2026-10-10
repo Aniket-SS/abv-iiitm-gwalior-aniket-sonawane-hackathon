@@ -218,3 +218,21 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# --- Project-specific ---
+# Large/raw/derived data stays local; small samples in data/sample are committed
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+
+# Local databases and caches
+*.db
+*.sqlite
+*.duckdb
+.cache/
+hf_cache/
+
+# Editor/OS noise
+.vscode/
+.DS_Store

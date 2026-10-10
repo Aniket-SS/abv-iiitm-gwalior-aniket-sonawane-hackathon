@@ -1,0 +1,24 @@
+# Global settings. Paths are relative to the repository root.
+random_seed: 42
+log_level: INFO
+
+paths:
+  data_raw: data/raw
+  data_sample: data/sample
+  data_processed: data/processed
+  data_synthetic: data/synthetic
+  signals_db: data/processed/signals.db   # SQLite (stdlib), created in Phase 4
+
+models:
+  sentiment: ProsusAI/finbert
+  zero_shot: facebook/bart-large-mnli
+  spacy: en_core_web_sm
+
+signals:
+  decay_half_life_hours: 48    # older signals fade: weight = 0.5 ** (age_h / half_life)
+  window_days: 7               # aggregation window per ticker
+  min_confidence: 0.5          # signals below this are ignored by downstream modules
+
+api:
+  host: 127.0.0.1
+  port: 8000

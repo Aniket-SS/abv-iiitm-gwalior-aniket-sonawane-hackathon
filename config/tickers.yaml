@@ -1,0 +1,87 @@
+# Universe for the engine and Module A: 20 large caps intended to be S&P 100
+# constituents. Index membership changes over time -- verify before submission.
+# Aliases drive entity linking: use names a headline would actually contain.
+# Short or ambiguous aliases (e.g. "Meta", "Apple") should be matched
+# case-sensitively as whole words by the linker.
+universe: S&P 100 subset
+tickers:
+  - ticker: AAPL
+    company: "Apple Inc."
+    sector: Information Technology
+    aliases: ["Apple", "Apple Inc"]
+  - ticker: MSFT
+    company: "Microsoft Corporation"
+    sector: Information Technology
+    aliases: ["Microsoft", "Microsoft Corp"]
+  - ticker: NVDA
+    company: "NVIDIA Corporation"
+    sector: Information Technology
+    aliases: ["Nvidia", "NVIDIA Corp"]
+  - ticker: AMZN
+    company: "Amazon.com, Inc."
+    sector: Consumer Discretionary
+    aliases: ["Amazon", "Amazon.com", "AWS"]
+  - ticker: TSLA
+    company: "Tesla, Inc."
+    sector: Consumer Discretionary
+    aliases: ["Tesla", "Tesla Inc"]
+  - ticker: GOOGL
+    company: "Alphabet Inc."
+    sector: Communication Services
+    aliases: ["Alphabet", "Google"]
+  - ticker: META
+    company: "Meta Platforms, Inc."
+    sector: Communication Services
+    aliases: ["Meta Platforms", "Meta", "Facebook"]
+  - ticker: DIS
+    company: "The Walt Disney Company"
+    sector: Communication Services
+    aliases: ["Disney", "Walt Disney"]
+  - ticker: JPM
+    company: "JPMorgan Chase & Co."
+    sector: Financials
+    aliases: ["JPMorgan", "JPMorgan Chase", "JP Morgan"]
+  - ticker: BAC
+    company: "Bank of America Corporation"
+    sector: Financials
+    aliases: ["Bank of America", "BofA"]
+  - ticker: GS
+    company: "The Goldman Sachs Group, Inc."
+    sector: Financials
+    aliases: ["Goldman Sachs", "Goldman"]
+  - ticker: XOM
+    company: "Exxon Mobil Corporation"
+    sector: Energy
+    aliases: ["Exxon Mobil", "ExxonMobil", "Exxon"]
+  - ticker: CVX
+    company: "Chevron Corporation"
+    sector: Energy
+    aliases: ["Chevron"]
+  - ticker: JNJ
+    company: "Johnson & Johnson"
+    sector: Health Care
+    aliases: ["Johnson & Johnson", "J&J"]
+  - ticker: PFE
+    company: "Pfizer Inc."
+    sector: Health Care
+    aliases: ["Pfizer"]
+  - ticker: UNH
+    company: "UnitedHealth Group Incorporated"
+    sector: Health Care
+    aliases: ["UnitedHealth", "UnitedHealth Group"]
+  - ticker: WMT
+    company: "Walmart Inc."
+    sector: Consumer Staples
+    aliases: ["Walmart", "Wal-Mart"]
+  - ticker: KO
+    company: "The Coca-Cola Company"
+    sector: Consumer Staples
+    aliases: ["Coca-Cola", "Coca Cola"]
+  - ticker: PG
+    company: "The Procter & Gamble Company"
+    sector: Consumer Staples
+    aliases: ["Procter & Gamble", "P&G"]
+  - ticker: BA
+    company: "The Boeing Company"
+    sector: Industrials
+    aliases: ["Boeing"]
