@@ -8,8 +8,13 @@ pandas>=2.0
 numpy>=1.26
 pytest>=8.0
 
+# --- Phase 1: data acquisition ---
+kagglehub>=0.3
+yfinance>=0.2.40
+requests>=2.31
+
 # --- Added in later phases (uncomment when you reach them) ---
-# Phase 1-2 (data + ingestion): kaggle, requests, feedparser, yfinance
+# Phase 2 (ingestion extras):   feedparser
 # Phase 3 (NLP engine):         torch, transformers, spacy, scikit-learn
 # Phase 4 (API):                fastapi, uvicorn[standard]
 # Phase 8 (dashboard):          streamlit, plotly

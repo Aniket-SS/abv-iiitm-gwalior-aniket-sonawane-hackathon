@@ -2,6 +2,12 @@ from src.common.config import PROJECT_ROOT, get_event_taxonomy, get_settings, ge
 from src.common.schemas import EventType
 
 
+EXPECTED_TICKERS = {
+    "AAPL", "AMD", "AMZN", "BA", "COST", "CRM", "DIS", "GOOG",
+    "INTC", "KO", "META", "MSFT", "NFLX", "PG", "TSLA", "VZ",
+}
+
+
 def test_project_root_contains_config():
     assert (PROJECT_ROOT / "config" / "settings.yaml").exists()
 
@@ -18,8 +24,9 @@ def test_taxonomy_covers_every_event_type():
     assert all(1 <= cfg.base_severity <= 10 for cfg in taxonomy.values())
 
 
-def test_tickers_load_and_are_unique():
+def test_tickers_load_and_match_approved_universe():
     tickers = get_tickers()
-    assert 15 <= len(tickers) <= 20
-    assert all(t == cfg.ticker for t, cfg in tickers.items())
+    assert set(tickers) == EXPECTED_TICKERS
+    assert len(tickers) == len(EXPECTED_TICKERS)
+    assert all(ticker == cfg.ticker for ticker, cfg in tickers.items())
     assert all(cfg.aliases for cfg in tickers.values())
