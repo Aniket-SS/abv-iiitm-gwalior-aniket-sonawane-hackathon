@@ -8,6 +8,11 @@ from typing import Literal
 
 from fastapi import Depends, FastAPI, HTTPException, Query
 
+import joblib
+import pandas as pd
+
+from src.market.learned_impact import FEATURES
+
 from src.common.config import get_settings
 from src.common.schemas import Signal
 from src.signals.store import SignalStore
@@ -23,6 +28,71 @@ def get_store() -> SignalStore:
         _store = SignalStore(db_override) if db_override else SignalStore()
     return _store
 
+
+_impact_model = None
+
+
+def get_impact_model():
+    global _impact_model
+
+    if _impact_model is not None:
+        return _impact_model
+
+    model_path = Path(
+        os.getenv(
+            "IMPACT_MODEL_PATH",
+            "data/processed/phase5/learned_impact_model.joblib",
+        )
+    )
+
+    if not model_path.is_absolute():
+        model_path = Path.cwd() / model_path
+
+    if not model_path.is_file():
+        raise HTTPException(
+            status_code=503,
+            detail="Learned impact model is unavailable.",
+        )
+
+    try:
+        _impact_model = joblib.load(model_path)
+    except Exception as exc:
+        raise HTTPException(
+            status_code=503,
+            detail="Could not load learned impact model.",
+        ) from exc
+
+    return _impact_model
+
+
+def score_signal_with_model(signal: dict) -> dict:
+    model = get_impact_model()
+
+    features = {
+        "impact": float(signal["impact"]),
+        "confidence": float(signal["confidence"]),
+        "abs_sentiment": abs(float(signal["sentiment"])),
+        "event_type": str(signal["event_type"]),
+        "channel": str(signal["channel"]),
+        "scope": str(signal["scope"]),
+        "ticker": str(signal["ticker"]).upper(),
+    }
+
+    frame = pd.DataFrame([features], columns=FEATURES)
+
+    predicted_magnitude = float(model.predict_magnitude(frame)[0])
+    calibrated_score = float(model.predict(frame)[0])
+
+    return {
+        "original_impact": float(signal["impact"]),
+        "predicted_abs_abnormal_return_pct": round(
+            predicted_magnitude, 6
+        ),
+        "calibrated_impact_score": round(calibrated_score, 4),
+        "horizon_trading_days": 3,
+        "experimental": True,
+        "model_status": "experimental_unvalidated",
+    }
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -42,6 +112,24 @@ app = FastAPI(
 def health(store: SignalStore = Depends(get_store)) -> dict[str, object]:
     return {"status": "ok", "database": str(store.db_path), "signal_count": store.count()}
 
+
+@app.get("/signals/{signal_id}/impact-calibration")
+def get_calibrated_impact(
+    signal_id: str,
+    store: SignalStore = Depends(get_store),
+) -> dict[str, object]:
+    signal = store.get(signal_id)
+
+    if signal is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Signal not found",
+        )
+
+    return {
+        "signal_id": signal_id,
+        **score_signal_with_model(signal),
+    }
 
 @app.get("/signals")
 def list_signals(
