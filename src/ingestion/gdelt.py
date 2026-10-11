@@ -78,7 +78,7 @@ def parse_gkg_row(row: list[str]) -> dict[str, Any] | None:
         "url": url or None,
         "themes": _split_semicolon(row[7]),
         "locations": _split_semicolon(row[9]),
-        "persons": _split_semicolon(row[10]),
+        "persons": _split_semicolon(row[11]),
         "organizations": _split_semicolon(row[23]),
         "gdelt_tone": _float_or_none((row[15] or "").split(",", 1)[0]),
         "text": title,

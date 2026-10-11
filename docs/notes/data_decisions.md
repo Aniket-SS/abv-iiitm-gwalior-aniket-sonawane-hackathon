@@ -131,3 +131,22 @@ Do not commit raw datasets, API responses containing article text, credentials, 
 - [ ] Confirm applicable terms before publishing any data; rerun tests and profile coverage after integration.
 
 **Implementation priority:** implement GDELT first and NewsAPI second behind a shared normalized schema; use the existing historical tweet/price data for backtesting. Keep the partial FNSPID subset optional, not required. Then connect the feeds to the risk engine and both downstream modules.
+
+
+## 8. Phase 2 ingestion decisions (2026-10-11)
+
+| Dataset/source | Pipeline role | Phase 2 treatment | Notes |
+|---|---|---|---|
+| `stock_tweets/stock_tweets.csv` | Historical social stream | Normalize to `Document` JSONL | Filter to configured tickers; preserve original ticker/company fields; deduplicate normalized output. |
+| GDELT DOC API | Recent news/event discovery | Optional online adapter | Recent coverage only; bounded requests; HTTP 429 is surfaced rather than retried in a loop. |
+| GDELT bulk GKG archive | Supplementary recent global news metadata | Parse archive separately; normalize GKG headline records only | GKG currently provides headline/metadata, not full article bodies. Keep export and mentions as structured event/reference datasets, not article documents. |
+| NewsAPI | Optional recent news | API-key adapter | Headline + description only; requires permitted plan and key. |
+| `news_vs_market_2020/news_sentiment_raw.csv` | Supplementary broad news/context | Normalize each raw article once | Retain source VADER values in metadata for later comparison, not as risk-engine output. Measured historical replay overlap is only 4 articles across 4 dates; do not force it into replay, but do not discard other dates. |
+| `news_vs_market_2020/market_prices.csv` | Market context | Keep as a separate tabular market dataset | Not a text document stream. |
+| `news_sentiment_daily.csv`, `sentiment_market_panel.csv`, `ml_features.csv` | Derived analytical data | Keep separate; do not merge as article documents | May be used later for analysis after checking feature timing/leakage. |
+| SEntFiN and Financial PhraseBank-style data | Labeled evaluation | Keep separate from ingestion | No publication timestamps; do not fabricate them. |
+| `market_events_2025` | Event taxonomy/rule reference | Keep separate from live article ingestion | CSV/JSON duplicates and only 50 unique headlines among 3,024 rows; provenance needs verification. |
+| `prices/` and `stock_yfinance_data.csv` | Market-price inputs | Keep in market-data pipeline | Not news documents. |
+| `tweets_returns/` | Excluded pending data-quality resolution | Do not ingest | Preserve original files unchanged. |
+
+The common `Document` contract is for timestamped text records. It is not a universal format for price panels, derived ML matrices, or unlabeled/undated evaluation datasets.
