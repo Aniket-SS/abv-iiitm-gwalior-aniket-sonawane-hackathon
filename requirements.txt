@@ -19,5 +19,8 @@ transformers>=4.40,<5
 spacy>=3.7,<4
 scikit-learn>=1.4
 
-# Phase 4 (API): fastapi, uvicorn[standard]
+# --- Phase 4: API and tests ---
+fastapi>=0.110,<1
+uvicorn[standard]>=0.27,<1
+httpx>=0.27,<1
 # Phase 8 (dashboard): streamlit, plotly
