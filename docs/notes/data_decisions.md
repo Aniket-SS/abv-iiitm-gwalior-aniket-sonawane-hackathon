@@ -126,7 +126,7 @@ Do not commit raw datasets, API responses containing article text, credentials, 
 - [x] Profile the FNSPID mirror subset: 18,483 rows, only AAPL/AMD/AMZN, date span 2021-01-04 to 2023-12-31; deferred as a required source.
 - [ ] Finalize and document the 10–20-stock universe and membership reference date.
 - [ ] Fetch and validate prices for the approved universe plus benchmark.
-- [ ] Implement and test canonical ingestion adapters for FNSPID, GDELT and optional NewsAPI.
+- [x] Implement and test canonical ingestion adapters (done in Phase 2: historical tweets, GDELT bulk GKG, NewsAPI, news_vs_market; FNSPID deferred; GDELT DOC API adapter removed on 2026-10-11).
 - [ ] Implement the risk engine, then both downstream modules and the dashboard.
 - [ ] Confirm applicable terms before publishing any data; rerun tests and profile coverage after integration.
 
@@ -150,3 +150,10 @@ Do not commit raw datasets, API responses containing article text, credentials, 
 | `tweets_returns/` | Excluded pending data-quality resolution | Do not ingest | Preserve original files unchanged. |
 
 The common `Document` contract is for timestamped text records. It is not a universal format for price panels, derived ML matrices, or unlabeled/undated evaluation datasets.
+
+
+## 9. Decision update (2026-10-11)
+
+- **GDELT DOC API dropped.** It is rate-limited (HTTP 429) and not useful for this project, so `src/ingestion/gdelt_api.py` and `scripts/ingest_gdelt.py` were removed. GDELT now means the downloaded bulk GKG files only (`scripts/process_gdelt.py` -> `scripts/ingest_gdelt_processed.py`). Where earlier sections call the DOC API the "primary recent-news adapter", read that as superseded by this note.
+- **Ticker linking is case-aware** (cashtag / UPPER-case symbol / company name; ambiguous symbols and names need stricter evidence). Adapter-written `raw_meta.tickers` are hints; the Phase 3 engine re-links from the text.
+- **Tweets tagged with several tickers** become one `Document` per ticker (ticker added to the document id), so no ticker's signal is lost to deduplication.

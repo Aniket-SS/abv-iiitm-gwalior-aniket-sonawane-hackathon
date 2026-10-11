@@ -45,6 +45,7 @@ def read_tweets(path: str | Path = DEFAULT_TWEETS_PATH, limit: int | None = None
                 channel=Channel.SOCIAL,
                 timestamp=timestamp,
                 text=text,
+                id_salt=ticker,  # same tweet text can be tagged with several tickers: keep each
                 raw_meta={
                     "entity_scope": "company",
                     "ticker": ticker,
