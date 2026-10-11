@@ -11,7 +11,7 @@ from __future__ import annotations
 import hashlib
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any
+from typing import Any, Literal
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
@@ -78,6 +78,7 @@ class Signal(BaseModel):
     source: str
     channel: Channel
     ticker: str = Field(min_length=1)
+    scope: Literal["company", "market"] = Field(default="company", description="Risk scope: company-specific or market-wide")
     company: str | None = None
     sentiment: float = Field(ge=-1.0, le=1.0, description="-1 very negative ... +1 very positive")
     event_type: EventType

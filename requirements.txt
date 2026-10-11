@@ -13,8 +13,11 @@ kagglehub>=0.3
 yfinance>=0.2.40
 requests>=2.31
 
-# --- Added in later phases (uncomment when you reach them) ---
-# Phase 2 (ingestion extras):   feedparser
-# Phase 3 (NLP engine):         torch, transformers, spacy, scikit-learn
-# Phase 4 (API):                fastapi, uvicorn[standard]
-# Phase 8 (dashboard):          streamlit, plotly
+# --- Phase 3: NLP risk engine ---
+torch>=2.2
+transformers>=4.40,<5
+spacy>=3.7,<4
+scikit-learn>=1.4
+
+# Phase 4 (API): fastapi, uvicorn[standard]
+# Phase 8 (dashboard): streamlit, plotly
