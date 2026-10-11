@@ -17,6 +17,30 @@ REQUIRED_PORTFOLIO_COLUMNS = {
 SHOCK_SUFFIXES = ("_pct", "_bps", "_points")
 
 
+def normalize_event_type(value: Any) -> str:
+    """Normalize NLP labels to the keys used by stress_scenarios.yaml."""
+    label = str(value or "other").strip().lower()
+    label = label.replace("&", "and").replace("/", " ").replace("-", " ")
+    label = "_".join(label.split())
+    aliases = {
+        "credit": "credit_event",
+        "credit_event": "credit_event",
+        "credit_events": "credit_event",
+        "merger_and_acquisition": "merger_acquisition",
+        "mergers_acquisitions": "merger_acquisition",
+        "m_and_a": "merger_acquisition",
+        "regulatory": "regulatory_legal",
+        "legal": "regulatory_legal",
+        "regulatory_or_legal_action": "regulatory_legal",
+        "leadership": "leadership_change",
+        "operational": "operational_disruption",
+        "product": "product_launch",
+        "macro_economic": "macroeconomic",
+        "geo_political": "geopolitical",
+    }
+    return aliases.get(label, label)
+
+
 def load_portfolio(path: str | Path) -> list[dict[str, Any]]:
     with Path(path).open("r", encoding="utf-8-sig", newline="") as stream:
         reader = csv.DictReader(stream)
@@ -102,7 +126,7 @@ def run_stress_test(
     scope = str(signal.get("scope") or "company").strip().lower()
     if scope not in {"company", "event", "market"}:
         scope = "company"
-    event_type = str(signal.get("event_type") or "other").strip().lower()
+    event_type = normalize_event_type(signal.get("event_type"))
     ticker = str(signal.get("ticker") or "").strip().upper() or None
     signal_id = signal.get("signal_id")
     base = {
@@ -120,7 +144,8 @@ def run_stress_test(
     if not portfolio:
         raise ValueError("Cannot run stress test with an empty portfolio")
 
-    scenario = scenarios.get(event_type, scenarios.get("other"))
+    scenario_key = event_type if event_type in scenarios else "other"
+    scenario = scenarios.get(scenario_key)
     if scenario is None:
         raise ValueError(f"No stress scenario configured for event type: {event_type}")
     shock = {key: float(value) for key, value in scenario.items() if key.endswith(SHOCK_SUFFIXES)}
@@ -163,7 +188,8 @@ def run_stress_test(
     return {
         **base,
         "triggered": True,
-        "scenario_name": scenario.get("name", event_type.replace("_", " ").title()),
+        "scenario_key": scenario_key,
+        "scenario_name": scenario.get("name", scenario_key.replace("_", " ").title()),
         "scenario_description": scenario.get("description", "Illustrative deterministic shock scenario"),
         "shocks": shock,
         "portfolio_before_value": round(before_total, 2),
