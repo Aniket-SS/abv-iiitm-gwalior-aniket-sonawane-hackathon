@@ -1,0 +1,82 @@
+# Illustrative deterministic shocks for hackathon demonstration, not forecasts.
+scenarios:
+  geopolitical:
+    name: Geopolitical escalation
+    description: Risk-off equity repricing, wider credit spreads, higher volatility and FX stress.
+    equity_shock_pct: -10.0
+    rate_shock_bps: 35
+    spread_shock_bps: 125
+    fx_shock_pct: -3.0
+    vol_shock_points: 12.0
+  macroeconomic:
+    name: Macroeconomic tightening shock
+    description: Higher yields, wider credit spreads and a broad equity decline.
+    equity_shock_pct: -8.0
+    rate_shock_bps: 100
+    spread_shock_bps: 75
+    fx_shock_pct: -1.5
+    vol_shock_points: 8.0
+  credit_event:
+    name: Credit deterioration
+    description: Credit spread widening with risk-off equity and volatility shocks.
+    equity_shock_pct: -6.0
+    rate_shock_bps: 20
+    spread_shock_bps: 250
+    fx_shock_pct: -1.0
+    vol_shock_points: 10.0
+  merger_acquisition:
+    name: Merger and acquisition repricing
+    description: Idiosyncratic equity repricing and moderate volatility increase.
+    equity_shock_pct: -3.0
+    rate_shock_bps: 0
+    spread_shock_bps: 20
+    fx_shock_pct: 0.0
+    vol_shock_points: 5.0
+  product_launch:
+    name: Product launch disappointment
+    description: Moderate equity drawdown and volatility increase.
+    equity_shock_pct: -4.0
+    rate_shock_bps: 0
+    spread_shock_bps: 15
+    fx_shock_pct: 0.0
+    vol_shock_points: 4.0
+  earnings:
+    name: Earnings miss
+    description: Equity repricing and modest credit/volatility stress.
+    equity_shock_pct: -7.0
+    rate_shock_bps: 10
+    spread_shock_bps: 50
+    fx_shock_pct: -0.5
+    vol_shock_points: 7.0
+  regulatory_legal:
+    name: Regulatory or legal action
+    description: Equity downside, wider spreads and volatility repricing.
+    equity_shock_pct: -6.0
+    rate_shock_bps: 15
+    spread_shock_bps: 100
+    fx_shock_pct: -0.5
+    vol_shock_points: 8.0
+  leadership_change:
+    name: Leadership disruption
+    description: Company uncertainty with moderate equity and volatility shocks.
+    equity_shock_pct: -3.5
+    rate_shock_bps: 0
+    spread_shock_bps: 35
+    fx_shock_pct: 0.0
+    vol_shock_points: 5.0
+  operational_disruption:
+    name: Operational disruption
+    description: Revenue interruption and risk repricing.
+    equity_shock_pct: -5.0
+    rate_shock_bps: 5
+    spread_shock_bps: 80
+    fx_shock_pct: -0.5
+    vol_shock_points: 6.0
+  other:
+    name: General risk-off fallback
+    description: Conservative broad risk-off fallback for unclassified high-impact signals.
+    equity_shock_pct: -5.0
+    rate_shock_bps: 25
+    spread_shock_bps: 75
+    fx_shock_pct: -1.0
+    vol_shock_points: 6.0

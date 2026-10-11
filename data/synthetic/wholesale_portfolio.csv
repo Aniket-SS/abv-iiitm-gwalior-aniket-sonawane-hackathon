@@ -1,0 +1,8 @@
+asset_id,asset_type,name,market_value,notional,rate_duration,spread_duration,equity_delta,dv01,vega_per_vol_point,fx_delta
+LN-001,loan,Investment-grade corporate loan book,25000000,25000000,3.5,2.8,0,0,0,0
+LN-002,loan,Commercial real estate loan book,18000000,18000000,4.2,3.5,0,0,0,0
+BD-001,bond,Sovereign bond portfolio,22000000,22000000,6.1,0.2,0,0,0,0
+BD-002,bond,Corporate bond portfolio,15000000,15000000,4.8,4.1,0,0,0,0
+DR-001,derivative,Equity index options hedge,3500000,12000000,0,0,4800000,18000,42000,0
+DR-002,derivative,Interest-rate swap book,1800000,20000000,0,0,0,32000,12000,0
+DR-003,derivative,FX forward book,950000,9000000,0,0,0,0,0,1800000
